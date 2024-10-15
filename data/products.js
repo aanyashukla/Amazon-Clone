@@ -94,6 +94,29 @@ object3.method();
 
 export let products = [];
 
+export function loadProductsFetch(){
+  const promise = fetch('https://supersimplebackend.dev/products').then((responce) => {
+    return responce.json();  //this gives the json or the data attached to the responce, in this case its the product's data.
+  }).then((productsData) => {
+    products = productsData.map((productDetails) => {
+      if (productDetails.type === 'clothing') {
+        return new Clothing(productDetails);
+      }
+      return new Product(productDetails);
+    });
+
+    console.log('load products');
+  });
+  return promise;
+}
+/*
+Even after returning promise we can still add more steps to the promise as shown below.
+
+loadProductsFetch().then(() => {
+  console.log('next step');
+});
+*/
+
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 

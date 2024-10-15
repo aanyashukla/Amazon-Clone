@@ -1,18 +1,18 @@
 import {renderOrderSummary} from "../../scripts/checkout/orderSummary.js";
 import {loadFromStorage, cart} from "../../data/cart.js";
-import {loadProducts} from "../../data/products.js";
+import {loadProducts, loadProductsFetch} from "../../data/products.js";
 
 describe('test suite: renderOrderSummary', () => {
   const productId1 = 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6';
   const productId2 = '15b6fc6f-327a-4ec4-896f-486349e85a3d';
 
   beforeAll((done) => {
-    loadProducts(() =>{
+    loadProductsFetch().then(() => {
       done();
     });
+  });
     //loadProducts is asynchronous.
     //done is a fn provided by jasmine, when we add this parameter beforeAll will not automatically go to the next step, now it will wait. It will only move to the next step when we call the done fn as shown above. If we don't call that then the done fn will keep waiting forever.
-  });
 
   beforeEach(() => {
     spyOn(localStorage, 'setItem');
