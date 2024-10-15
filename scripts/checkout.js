@@ -5,18 +5,43 @@ import {loadCart} from "../data/cart.js";
 // import '../data/cart-class.js';
 // import '../data/backend-practice.js';
 
+async function loadPage() {
+  try {
+    // throw 'error1';
+
+    await loadProductsFetch();
+
+    const value = await new Promise((resolve, reject) => {
+      // throw 'error2';
+      loadCart(() => {
+        // reject('error3');   reject is a fn and it lets us create an error in the future.
+        resolve('value');
+      });
+    });
+
+  } catch (error) {
+    console.log('Unexpected error. Please try again later.');
+  }
+
+  renderOrderSummary();
+  renderPaymentSummary();
+}
+loadPage();
+
+/*
 Promise.all([
   loadProductsFetch(),
   new Promise((resolve) => {
     loadCart(() => { 
-      resolve();
+      resolve('value1');
     });
   })
 
-]).then(() => {
+]).then((value) => {
   renderOrderSummary();
   renderPaymentSummary();
 });
+*/
 
 /*
 new Promise((resolve) => {
@@ -44,4 +69,3 @@ loadProducts(() => {
 });
 */
 // if we have lots of callbacks, our code will become more and more nested. All the indents will make our code hard to work with and hence we use promise. Promises keep our code more flat.
-
